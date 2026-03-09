@@ -3,20 +3,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
-  },
-};
-
 const stats: [string, string][] = [
   ["15+", "let izkušenj"],
   ["5000+", "zadovoljnih strank"],
@@ -24,13 +10,24 @@ const stats: [string, string][] = [
   ["Kranj", "Slovenija"],
 ];
 
+function fadeIn(delay: number = 0) {
+  return {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    transition: {
+      duration: 0.6,
+      delay,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  };
+}
+
 export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex flex-col overflow-hidden"
       style={{
-        background:
-          "linear-gradient(135deg, #1C1917 0%, #292524 50%, #1C1917 100%)",
+        background: "linear-gradient(135deg, #1C1917 0%, #292524 50%, #1C1917 100%)",
       }}
     >
       {/* Ambient gold circles */}
@@ -51,15 +48,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 pointer-events-none" />
 
       {/* Main content */}
-      <motion.div
-        className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 pb-32"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 pb-32">
         {/* Accent label */}
         <motion.span
-          variants={itemVariants}
+          {...fadeIn(0.05)}
           className="inline-block text-sm tracking-[0.3em] uppercase mb-6"
           style={{ fontFamily: "'Cormorant Garamond', serif", color: "#D4A574" }}
         >
@@ -68,7 +60,7 @@ export default function Hero() {
 
         {/* H1 */}
         <motion.h1
-          variants={itemVariants}
+          {...fadeIn(0.15)}
           className="text-5xl sm:text-6xl md:text-7xl text-white leading-tight mb-6 max-w-4xl"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
@@ -81,7 +73,7 @@ export default function Hero() {
 
         {/* Description */}
         <motion.p
-          variants={itemVariants}
+          {...fadeIn(0.25)}
           className="text-lg md:text-xl text-white/70 mb-10 max-w-xl leading-relaxed"
         >
           Profesionalna nega obraza, telesa in duha v sončnem ambientu Kranja.
@@ -90,15 +82,13 @@ export default function Hero() {
 
         {/* CTAs */}
         <motion.div
-          variants={itemVariants}
+          {...fadeIn(0.35)}
           className="flex flex-col sm:flex-row gap-4"
         >
           <Link href="/kontakt">
             <motion.span
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium text-white text-base cursor-pointer"
-              style={{
-                background: "linear-gradient(135deg, #D4A574 0%, #C49660 100%)",
-              }}
+              style={{ background: "linear-gradient(135deg, #D4A574 0%, #C49660 100%)" }}
               whileHover={{
                 scale: 1.03,
                 boxShadow: "0 10px 30px -8px rgba(212,165,116,0.5)",
@@ -123,13 +113,11 @@ export default function Hero() {
             </motion.span>
           </Link>
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* Stats bar */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        {...fadeIn(0.45)}
         className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm"
       >
         <div className="max-w-5xl mx-auto px-4 py-5 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -137,10 +125,7 @@ export default function Hero() {
             <div key={label}>
               <div
                 className="text-2xl font-semibold"
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  color: "#D4A574",
-                }}
+                style={{ fontFamily: "'Playfair Display', serif", color: "#D4A574" }}
               >
                 {num}
               </div>
@@ -154,14 +139,12 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
+        {...fadeIn(0.55)}
         className="absolute bottom-24 left-1/2 -translate-x-1/2 text-white/40 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
         >
           <ChevronDown className="w-6 h-6" />
         </motion.div>
